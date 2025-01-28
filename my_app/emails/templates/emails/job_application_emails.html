@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Application Emails</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Job Application Emails</h1>
+
+        <!-- Filter buttons for category -->
+        <div class="mb-3">
+            <a href="{% url 'applicant_list' %}?category=ALL" class="btn btn-primary {% if selected_category == 'ALL' %}active{% endif %}">ALL</a>
+            <a href="{% url 'applicant_list' %}?category=IT BASED" class="btn btn-secondary {% if selected_category == 'IT BASED' %}active{% endif %}">IT BASED</a>
+            <a href="{% url 'applicant_list' %}?category=EDUCATION BASED" class="btn btn-secondary {% if selected_category == 'EDUCATION BASED' %}active{% endif %}">EDUCATION BASED</a>
+            <a href="{% url 'applicant_list' %}?category=BLUE COLLAR" class="btn btn-secondary {% if selected_category == 'BLUE COLLAR' %}active{% endif %}">BLUE COLLAR</a>
+            <a href="{% url 'applicant_list' %}?category=OTHERS" class="btn btn-secondary {% if selected_category == 'OTHERS' %}active{% endif %}">OTHERS</a>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Job Role</th>
+                    <th>Resume</th>
+                    <th>Date Received</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for email in emails %}
+                    <tr>
+                        <td>{{ email.name }}</td>
+                        <td>{{ email.email }}</td>
+                        <td>{{ email.job_role }}</td>
+                        <td>
+                            {% if email.resume == "No resume attached" %}
+                                No resume attached
+                            {% else %}
+                                <a href="{{ email.resume }}" target="_blank">{{ email.name }}-Resume</a>
+                            {% endif %}
+                        </td>
+                        <td>{{ email.date_received }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
